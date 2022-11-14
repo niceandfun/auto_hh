@@ -1,10 +1,12 @@
-from pages.page import IPage
+from selenium.webdriver.chrome import webdriver
+
+from pages.page import Page
 
 
-class ResumesPage(IPage):
-    def __init__(self, driver):
+class ResumesPage(Page):
+    def __init__(self, driver: webdriver):
+        super().__init__(driver=driver)
         self.url = 'https://hh.ru/applicant/resumes'
-        self.driver = driver
 
-    def open(self):
-        self.driver.get(self.url)
+    def update_resume(self, title):
+        pass
