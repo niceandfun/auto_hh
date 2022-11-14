@@ -1,3 +1,4 @@
-class Page:
-    def __init__(self):
-        pass
+class IPage:
+    def open(self):
+        raise NotImplementedError
+
