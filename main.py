@@ -5,10 +5,14 @@ from selenium import webdriver
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
 from pages.resumes_page import ResumesPage
+from dotenv import load_dotenv
 
 
 def main():
+    load_dotenv()
+
     driver = webdriver.Chrome()
+    driver.implicitly_wait(5)
 
     try:
         main_page = MainPage(driver)
