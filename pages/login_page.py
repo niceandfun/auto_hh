@@ -3,8 +3,8 @@ from pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, driver):
+        super().__init__(driver)
         self.url = 'https://hh.ru/account/login'
 
     def _set_login(self, login):
