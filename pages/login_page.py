@@ -1,31 +1,35 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
 
-from pages.page import Page
 
-
-class LoginPage(Page):
-    def __init__(self, driver: webdriver):
-        super().__init__(driver=driver)
+class LoginPage(BasePage):
+    def __init__(self):
+        super().__init__()
         self.url = 'https://hh.ru/account/login'
 
-    def set_login(self, login):
-        login_field = self.driver.find_element(By.CSS_SELECTOR, '[data-qa="login-input-username"]')
+    def _set_login(self, login):
+        login_field = self.driver.find_element(*LoginPageLocators.LOGIN_INPUT_FIELD)
         login_field.send_keys(login)
 
-    def set_password(self, password):
-        login_field = self.driver.find_element(By.CSS_SELECTOR, '[data-qa="login-input-password"]')
+    def _set_password(self, password):
+        login_field = self.driver.find_element(*LoginPageLocators.PASSWORD_INPUT_FIELD)
         login_field.send_keys(password)
 
-    def press_submit(self):
-        submit_button = self.driver.find_element(By.XPATH, '//span[text()="Войти"]')
-        submit_button.click()
+    def _click_submit_button(self):
+        self.driver.find_element(*LoginPageLocators.SUBMIT_BUTTON).click()
+
+    def _click_login_by_password_button(self):
+        self.driver.find_element(*LoginPageLocators.LOGIN_BY_PASSWORD_BUTTON).click()
 
     def login(self, login, password):
-        self.click_to_button('[data-qa="expand-login-by-password"]')
-        self.set_login(login)
-        self.set_password(password)
-        self.click_to_button('[data-qa="account-login-submit"]')
+        self._click_login_by_password_button()
+        self._set_login(login)
+        self._set_password(password)
+        self._click_submit_button()
 
-    def click_to_button(self, text):
-        self.driver.find_element(By.CSS_SELECTOR, text).click()
+
+class LoginPageLocators:
+    LOGIN_INPUT_FIELD = (By.CSS_SELECTOR, '[data-qa="login-input-username"]')
+    PASSWORD_INPUT_FIELD = (By.CSS_SELECTOR, '[data-qa="login-input-password"]')
+    SUBMIT_BUTTON = (By.CSS_SELECTOR, '[data-qa="account-login-submit"]')
+    LOGIN_BY_PASSWORD_BUTTON = (By.CSS_SELECTOR, '[data-qa="expand-login-by-password"]')

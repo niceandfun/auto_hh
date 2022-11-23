@@ -1,7 +1,7 @@
 from selenium import webdriver
 
 
-class IPage:
+class IBasePage:
     def open(self):
         raise NotImplementedError
 
@@ -15,10 +15,10 @@ class IPage:
         raise NotImplementedError
 
 
-class Page(IPage):
-    def __init__(self, driver: webdriver):
-        self.url = ''
-        self.driver = driver
+class BasePage(IBasePage):
+    def __init__(self):
+        self.driver = webdriver.Chrome()
+        self.driver.implicitly_wait(5)
 
     def open(self):
         self.driver.get(self.url)
@@ -27,8 +27,8 @@ class Page(IPage):
         self.driver.close()
 
     def __enter__(self):
-        self.driver.get(self.url)
+        self.open()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.driver.close()
+        self.close()

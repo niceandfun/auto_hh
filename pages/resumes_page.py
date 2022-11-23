@@ -1,13 +1,15 @@
-from selenium.webdriver.chrome import webdriver
 from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
 
-from pages.page import Page
 
-
-class ResumesPage(Page):
-    def __init__(self, driver):
-        super().__init__(driver=driver)
+class ResumesPage(BasePage):
+    def __init__(self):
+        super().__init__()
         self.url = 'https://hh.ru/applicant/resumes'
 
-    def update_resume(self, title):
-        self.driver.find_element(By.CSS_SELECTOR, f'[data-qa-title="{title}"] [data-qa="resume-update-button_actions"]')
+    def update_resume(self):
+        self.driver.find_element(*ResumesPageLocators.UPDATE_BUTTON)
+
+
+class ResumesPageLocators:
+    UPDATE_BUTTON = (By.CSS_SELECTOR, '[data-qa-title="QA Engineer"] [data-qa="resume-update-button_actions"]')
